@@ -174,7 +174,7 @@ void AddCol()
 				{
 					temp=getchar();
 					if(temp!=10)
-					MemCharArrIO(ShortStrRowTable[Shift],0x80000000+((ColumnNum-1)*64)+countY,(char)temp);
+						MemCharArrIO(ShortStrRowTable[Shift],0x80000000+((ColumnNum-1)*64)+countY,(char)temp);
 					countY++;
 				}
 				while(countY<64&&temp!=10);
@@ -187,7 +187,7 @@ void AddCol()
 				{
 					temp=getchar();
 					if(temp!=10)
-					MemCharArrIO(LongStrRowTable[Shift],0x80000000+((ColumnNum-1)*512)+countY,(char)temp);
+						MemCharArrIO(LongStrRowTable[Shift],0x80000000+((ColumnNum-1)*512)+countY,(char)temp);
 					countY++;
 				}
 				while(countY<512&&temp!=10);
@@ -196,13 +196,111 @@ void AddCol()
 
 		}
 	}
-	
+
 }
 
-void RemoveCol(char ColNum)
+void RemoveCol(unsigned char ColNum)
 {
-	char count;
-	for (count=ColNum-1; count<ColumnNum; count++)
-		ColumnLUT[count]=ColumnLUT[count+1];
+	char count,Prop,Shift,countX,temp;
+	for (count=0; count<RowNum; count++)
+	{
+		Prop=RowIndex[count]>>14;
+		Shift=(char)RowIndex[count];
+		switch (Prop)
+		{
+			case 0:
+			{
+				MemIntArrIO(IntRowTable[Shift],0x8000+ColNum-1,MemIntArrIO(IntRowTable[Shift],ColumnNum-1,0));
+				break;
+			}
+			case 1:
+			{
+				MemFloatArrIO(FloatRowTable[Shift],0x8000+ColNum-1,MemFloatArrIO(FloatRowTable[Shift],ColumnNum-1,0));
+				break;
+			}
+			case 2:
+			{
+				for(countX=0; countX<64; countX++)
+				{
+					temp=MemCharArrIO(ShortStrRowTable[Shift],(ColumnNum-1)*64+countX,0);
+					MemCharArrIO(ShortStrRowTable[Shift],0x80000000+(ColNum-1)*64+countX,temp);
+				}
+
+				break;
+			}
+			case 3:
+			{
+				for(countX=0; countX<64; countX++)
+				{
+					temp=MemCharArrIO(LongStrRowTable[Shift],(ColumnNum-1)*512+countX,0);
+					MemCharArrIO(LongStrRowTable[Shift],0x80000000+(ColNum-1)*512+countX,temp);
+				}
+				break;
+			}
+		}
+	}
+	//for (count=ColNum-1; count<ColumnNum; count++)
+	//	ColumnLUT[count]=ColumnLUT[count+1];
+
+	ColumnNum--;
+}
+void ModCol(unsigned char ColNum)
+{
+	char row,Prop,Shift;
+	int temp;
+	short countY;float ftemp;
+	PrintColumn(ColNum-1);
+	printf("Which row?\n");
+	scanf("%d",&row);
+	Prop=RowIndex[row-1]>>14;
+	Shift=(char)RowIndex[row-1];
+	printf("Please Enter Data.\n");
+	getchar();
+	switch (Prop)
+	{
+		case 0:
+		{
+			scanf("%d",&temp);
+			MemIntArrIO(IntRowTable[Shift],0x8000+ColNum-1,temp);
+			getchar();
+			//printf("Row:%d,Column:%d",Shift,ColumnNum);
+			break;
+		}
+
+		case 1:
+		{
+			scanf("%f",&ftemp);
+			MemFloatArrIO(FloatRowTable[Shift],0x8000+ColNum-1,ftemp);
+			getchar();
+			break;
+		}
+
+		case 2:
+		{
+			do
+			{
+				temp=getchar();
+				if(temp!=10)
+					MemCharArrIO(ShortStrRowTable[Shift],0x80000000+((ColNum-1)*64)+countY,(char)temp);
+				countY++;
+			}
+			while(countY<64&&temp!=10);
+			break;
+		}
+
+		case 3:
+		{
+			do
+			{
+				temp=getchar();
+				if(temp!=10)
+					MemCharArrIO(LongStrRowTable[Shift],0x80000000+((ColNum-1)*512)+countY,(char)temp);
+				countY++;
+			}
+			while(countY<512&&temp!=10);
+			break;
+		}
+
+	}
 }
 

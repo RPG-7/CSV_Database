@@ -107,7 +107,15 @@ int mod_menu()
 			RemoveCol(sel);
 			break;
 		}
-		
+		case 4:
+		case 5:
+		{
+			PrintAll();
+			printf("Which Column?");
+			scanf("%d",&sel);
+			ModCol(sel);
+			break;
+		}
 	}
 }
 int calc_menu()
@@ -197,7 +205,7 @@ char prop_menu()
 	scanf("%d",&sel);
 	return(sel);
 }
-char db_err(char filename[])//Pass
+char db_err(char filename[])
 {
 	printf("(C)reate new/(A)bort/(R)epair/(E)xit?\n");
 	switch(getchar())
