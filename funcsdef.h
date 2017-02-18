@@ -1,3 +1,8 @@
+//CSV Database
+//Something Stupidly Simple.
+//Newbie:Hong,XiaoYu @ ChengDu College of UESTC
+//Define all the functions and global pointers/variables.
+/****************************************************************/
 //Pointers and global variables
 int *IntRowTable[64];
 float *FloatRowTable[64];
@@ -24,8 +29,11 @@ void PrintColumn(char column);
 void PrintAll();
 void BSort(char sign,char Row);
 void AddCol();
-void RemoveCol(char ColNum);
-
+void RemoveCol(unsigned char ColNum);
+void ModCol(unsigned char ColNum);
+void AddRow();
+void RemoveRow(unsigned char Row);
+void RenameRow(unsigned char Row);
 //CSV_db.c
 short db_create(char filename[]);
 int db_repair();
@@ -36,5 +44,6 @@ short db_check(char filename[]);
 int MemIntArrIO(int *pMemBlk,unsigned short Wr_Addr,int data);
 float MemFloatArrIO(float *pMemBlk,unsigned short Wr_Addr,float data);
 char MemCharArrIO(char *pMemBlk,unsigned int Wr_TotalShift,char data);
+char pAlloc(char Prop);
 void CreateLUT();
 

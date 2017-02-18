@@ -1,3 +1,7 @@
+//CSV Database
+//Something Stupidly Simple.
+//Newbie:Hong,XiaoYu @ ChengDu College of UESTC
+//No Need to say, Menus.
 int mainmenu()
 {
 	char sel;
@@ -36,7 +40,7 @@ int mainmenu()
 		case 0:
 			exit(0);
 			break;
-		
+
 	}
 
 }
@@ -87,18 +91,22 @@ int mod_menu()
 	printf("* * * * * * * * * * * * * * * * * * *\n");
 	printf("*           Modify Menu             *\n");
 	printf("* 1. Append a column                *\n");
-	printf("* 2. Append a row                   *\n");	
+	printf("* 2. Append a row                   *\n");
 	printf("* 3. Delete a column                *\n");
 	printf("* 4. Delete a row                   *\n");
 	printf("* 5. Modify a column                *\n");
-	printf("* 6. Modify a row                   *\n");
+	printf("* 6. Rename a row                   *\n");
 	printf("* * * * * * * * * * * * * * * * * * *\n");
 	printf("Please enter your choice:");
 	scanf("%d",&sel);
 	switch(sel)
 	{
-		case 1:AddCol();break;
+		case 1:
+			AddCol();
+			break;
 		case 2:
+			AddRow();
+			break;
 		case 3:
 		{
 			PrintAll();
@@ -108,12 +116,27 @@ int mod_menu()
 			break;
 		}
 		case 4:
+		{
+			PrintIndex();
+			printf("Which Row?");
+			scanf("%d",&sel);
+			RemoveRow(sel);
+			break;
+		}
 		case 5:
 		{
 			PrintAll();
 			printf("Which Column?");
 			scanf("%d",&sel);
 			ModCol(sel);
+			break;
+		}
+		case 6:
+		{
+			PrintIndex();
+			printf("Which Row?");
+			scanf("%d",&sel);
+			RenameRow(sel);
 			break;
 		}
 	}
@@ -140,15 +163,22 @@ int sort_menu()
 	printf("* 3. Flush current order          *\n");
 	printf("* * * * * * * * * * * * * * * * * *\n");
 	printf("Please enter your choice:");
-	scanf("%d",&sel);getchar();
+	scanf("%d",&sel);
+	getchar();
 	PrintIndex();
 	printf("Which row?");
 	scanf("%d",&RowNum);
 	switch(sel)
 	{
-		case 1:BSort(0,RowNum-1);break;
-		case 2:BSort(1,RowNum-1);break;
-		case 3:CreateLUT();break;
+		case 1:
+			BSort(0,RowNum-1);
+			break;
+		case 2:
+			BSort(1,RowNum-1);
+			break;
+		case 3:
+			CreateLUT();
+			break;
 	}
 	PrintAll();
 }
@@ -186,9 +216,9 @@ int output_menu()
 		}
 		case 2:
 		{
-			
+
 			break;
-		} 
+		}
 	}
 }
 char prop_menu()

@@ -1,3 +1,7 @@
+//CSV Database
+//Something Stupidly Simple.
+//Newbie:Hong,XiaoYu @ ChengDu College of UESTC
+//About this file: Generic Database functions
 void FlushCharArr(char Arr[],int Length)
 {
 	int i;
@@ -198,7 +202,6 @@ void AddCol()
 	}
 
 }
-
 void RemoveCol(unsigned char ColNum)
 {
 	char count,Prop,Shift,countX,temp;
@@ -248,7 +251,8 @@ void ModCol(unsigned char ColNum)
 {
 	char row,Prop,Shift;
 	int temp;
-	short countY;float ftemp;
+	short countY;
+	float ftemp;
 	PrintColumn(ColNum-1);
 	printf("Which row?\n");
 	scanf("%d",&row);
@@ -304,3 +308,61 @@ void ModCol(unsigned char ColNum)
 	}
 }
 
+void AddRow()
+{
+	char temp,countY;
+	printf("Please enter the title of the new row");
+	getchar();
+	countY=0;
+	RowNum++;
+	do
+	{
+		temp=getchar();
+		if(temp!=10)
+			EntryTitle[countY][RowNum-1]=temp;
+		countY++;
+	}
+	while(countY<64&&temp!=10);
+	Select:
+	switch(prop_menu())
+	{
+		case 1:
+		{
+			temp=pAlloc(0);
+			RowIndex[RowNum-1]=temp;
+			IntRowTable[temp]=malloc(256*sizeof(int));
+			break;
+		}
+		case 2:
+		{
+			temp=pAlloc(1);
+			RowIndex[RowNum-1]=0x4000+temp;
+			FloatRowTable[temp]=malloc(256*sizeof(float));
+			break;
+		}
+		case 3:
+		{
+			temp=pAlloc(2);
+			RowIndex[RowNum-1]=0x8000+temp;
+			ShortStrRowTable[temp]=malloc(256*64*sizeof(char));
+			break;
+		}
+		case 4:
+		{
+			temp=pAlloc(3);
+			RowIndex[RowNum-1]=0x4000+temp;
+			LongStrRowTable[temp]=malloc(256*512*sizeof(char));
+			break;
+		}
+		
+	}
+
+}
+void RemoveRow(unsigned char Row)
+{
+
+}
+void RenameRow(unsigned char Row)
+{
+
+}

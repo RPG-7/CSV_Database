@@ -1,3 +1,7 @@
+//CSV Database
+//Something Stupidly Simple.
+//Newbie:Hong,XiaoYu @ ChengDu College of UESTC
+//These are some RAM operations for this database.
 int MemIntArrIO(int *pMemBlk,unsigned short Wr_Addr,int data)
 {
 	int *pWork;
@@ -41,6 +45,63 @@ char MemCharArrIO(char *pMemBlk,unsigned int Wr_TotalShift,char data)
 		pWork=pMemBlk+Wr_TotalShift;
 		return *pWork;
 	} 
+}
+char pAlloc(char Prop)
+{
+	char count,pcount=0,pPrev=0,pNow=0;
+
+	switch (Prop)
+	{
+		case 1:
+		{
+			for(count=0; count<RowNum-2; count++)
+				if(RowIndex[count]>>14==0)
+				{
+					pPrev=pNow;
+					pNow=(char)RowIndex[count];
+					if (pPrev!=pNow+1||pPrev==pNow)
+						return pNow+1;
+				}
+			break;
+		}
+		case 2:
+		{
+			for(count=0; count<RowNum-2; count++)
+				if(RowIndex[count]>>14==1)
+				{
+					pPrev=pNow;
+					pNow=(char)RowIndex[count];
+					if (pPrev!=pNow+1||pPrev==pNow)
+						return pNow+1;
+				}
+			break;
+		}
+		case 3:
+		{
+			for(count=0; count<RowNum-2; count++)
+				if(RowIndex[count]>>14==2)
+				{
+					pPrev=pNow;
+					pNow=(char)RowIndex[count];
+					if (pPrev!=pNow+1||pPrev==pNow)
+						return pNow+1;
+				}
+			break;
+		}
+		case 4:
+		{
+			for(count=0; count<RowNum-2; count++)
+				if(RowIndex[count]>>14==3)
+				{
+					pPrev=pNow;
+					pNow=(char)RowIndex[count];
+					if (pPrev!=pNow+1||pPrev==pNow)
+						return pNow+1;
+				}
+			break;
+		}
+
+	}
 }
 void CreateLUT()
 {
