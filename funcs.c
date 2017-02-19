@@ -5,7 +5,7 @@
 void FlushCharArr(char Arr[],int Length)
 {
 	int i;
-	for(i=0; i<Length; i++ )Arr[i]=0;
+	for(i=0; i<Length; i++ ) Arr[i]=0;
 }
 void PrintIndex()
 {
@@ -323,7 +323,7 @@ void AddRow()
 		countY++;
 	}
 	while(countY<64&&temp!=10);
-	Select:
+Select:
 	switch(prop_menu())
 	{
 		case 1:
@@ -354,15 +354,40 @@ void AddRow()
 			LongStrRowTable[temp]=malloc(256*512*sizeof(char));
 			break;
 		}
-		
+
 	}
 
 }
 void RemoveRow(unsigned char Row)
 {
-
+	char countX,countY,temp,Shift;
+	Shift=(char)RowIndex[Row-1];
+	switch (RowIndex[Row-1]>>14)
+	{
+		case 1:free(IntRowTable[Shift]);break;
+		case 2:free(FloatRowTable[Shift]);break;
+		case 3:free(ShortStrRowTable[Shift]);break;
+		case 4:free(LongStrRowTable[Shift]);break;
+	}
+	for (countX=Row-1; countX<RowNum; countX++)
+		for(countY=0;countY<64;countY++)
+			EntryTitle[countY][countX]=EntryTitle[countY][countX+1];
+	for (countX=Row-1; countX<RowNum; countX++)
+		RowIndex[countX]=RowIndex[countX+1];
+	RowNum--;	
 }
 void RenameRow(unsigned char Row)
 {
-
+	char countY=0,temp,stat=0;
+	//FlushCharArr(EntryTitle[*][Row-1],64);
+	do
+	{
+		temp=getchar();
+		if(temp!=10)
+			EntryTitle[countY][Row-1]=temp;
+		else
+			EntryTitle[countY][Row-1]=0;
+		countY++;
+	}
+	while(countY<64&&temp!=10);
 }
